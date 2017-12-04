@@ -120,7 +120,7 @@ public class S3FileWrapper
     }
   }
 
-  interface Test
+  public interface Test
   {
     void test() throws Exception;
   }
