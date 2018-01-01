@@ -58,6 +58,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-core</artifactId>
+      <version>${aws.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.streamsimple</groupId>
       <artifactId>awsutils</artifactId>
     </dependency>

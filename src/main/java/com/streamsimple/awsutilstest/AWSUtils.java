@@ -17,6 +17,11 @@
  */
 package com.streamsimple.awsutilstest;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+
 /**
  * This class is used to retrieve environmental variables with AWS credentials.
  */
@@ -32,16 +37,52 @@ public final class AWSUtils
 
   public static String getAWSRegion()
   {
-    return System.getenv(ENV_AWS_REGION);
+    final String region = System.getenv(ENV_AWS_REGION);
+
+    if (region == null) {
+      final String message = String.format("The %s environment variable is not set.", ENV_AWS_REGION);
+      throw new NullPointerException(message);
+    }
+
+    return region;
   }
 
   public static String getAWSAccessKey()
   {
-    return System.getenv(ENV_AWS_ACCESS_KEY);
+    final String accessKey = System.getenv(ENV_AWS_ACCESS_KEY);
+
+    if (accessKey == null) {
+      final String message = String.format("The %s environment variable is not set.", ENV_AWS_ACCESS_KEY);
+      throw new NullPointerException(message);
+    }
+
+    return accessKey;
   }
 
   public static String getAWSSecretKey()
   {
-    return System.getenv(ENV_AWS_SECRET_KEY);
+    final String secretKey = System.getenv(ENV_AWS_SECRET_KEY);
+
+    if (secretKey == null) {
+      final String message = String.format("The %s environment variable is not set.", ENV_AWS_SECRET_KEY);
+      throw new NullPointerException(message);
+    }
+
+    return secretKey;
+  }
+
+  public static AWSCredentials getCredentials()
+  {
+    final String accessKey = getAWSAccessKey();
+    final String secretKey = getAWSSecretKey();
+
+    return new BasicAWSCredentials(accessKey, secretKey);
+  }
+
+  public static AWSCredentialsProvider getCredentialsProvider()
+  {
+    final AWSCredentials credentials = getCredentials();
+
+    return new AWSStaticCredentialsProvider(credentials);
   }
 }
